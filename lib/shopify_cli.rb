@@ -106,6 +106,7 @@ module ShopifyCli
   autoload :Finalize, 'shopify-cli/finalize'
   autoload :Form, 'shopify-cli/form'
   autoload :Helpers, 'shopify-cli/helpers'
+  autoload :Heroku, 'shopify-cli/heroku'
   autoload :Log, 'shopify-cli/log'
   autoload :Monorail, 'shopify-cli/monorail'
   autoload :OAuth, 'shopify-cli/oauth'

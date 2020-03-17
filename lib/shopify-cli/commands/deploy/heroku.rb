@@ -23,15 +23,18 @@ module ShopifyCli
           @ctx = ctx
 
           spin_group = CLI::UI::SpinGroup.new
+          heroku_service = ShopifyCli::Heroku.new(@ctx)
 
           spin_group.add('Downloading Heroku CLI…') do |spinner|
-            heroku_download
+            # heroku_download
+            heroku_service.download
             spinner.update_title('Downloaded Heroku CLI')
           end
           spin_group.wait
 
           spin_group.add('Installing Heroku CLI…') do |spinner|
-            heroku_install
+            # heroku_install
+            heroku_service.install
             spinner.update_title('Installed Heroku CLI')
           end
           spin_group.add('Checking git repo…') do |spinner|
@@ -40,16 +43,17 @@ module ShopifyCli
           end
           spin_group.wait
 
-          if (account = heroku_whoami)
+          if (account = heroku_service.whoami) #(account = heroku_whoami)
             spin_group.add("Authenticated with Heroku as `#{account}`") { true }
             spin_group.wait
           else
             CLI::UI::Frame.open("Authenticating with Heroku…", success_text: '{{v}} Authenticated with Heroku') do
-              heroku_authenticate
+              # heroku_authenticate
+              heroku_service.authenticate
             end
           end
 
-          if (app_name = heroku_app)
+          if (app_name = heroku_service.app) #(app_name = heroku_app)
             spin_group.add("Heroku app `#{app_name}` selected") { true }
             spin_group.wait
           else
@@ -64,11 +68,13 @@ module ShopifyCli
                 "Selecting Heroku app `#{app_name}`…",
                 success_text: "{{v}} Heroku app `#{app_name}` selected"
               ) do
-                heroku_select_existing_app(app_name)
+                # heroku_select_existing_app(app_name)
+                heroku_service.select_existing_app(app_name)
               end
             elsif app_type == :new
               CLI::UI::Frame.open('Creating new Heroku app…', success_text: '{{v}} New Heroku app created') do
-                heroku_create_new_app
+                # heroku_create_new_app
+                heroku_service.create_new_app
               end
             end
           end
