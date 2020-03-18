@@ -3,12 +3,10 @@ require 'shopify_cli'
 module ShopifyCli
   module Commands
     class Open < ShopifyCli::Command
-      include Helpers::OS
-
       prerequisite_task :tunnel
 
       def call(*)
-        open_url!(@ctx, Project.current.app_type.open_url)
+        @ctx.open_url!(Project.current.app_type.open_url)
       end
 
       def self.help
